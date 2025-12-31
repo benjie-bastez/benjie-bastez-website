@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benjie Bastez - Marketing Specialist & Web Designer</title>
+<style>
+/* --- GLOBAL STYLES --- */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+body { background: #000; color: #fff; scroll-behavior: smooth; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; }
+
+/* --- CONTAINER --- */
+.container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 20px 0; }
+
+/* --- HERO --- */
+.hero { background: linear-gradient(135deg,#000,#333); text-align: center; padding: 100px 20px 60px 20px; }
+.hero h1 { font-size: 3em; margin-bottom: 20px; }
+.hero h2 { font-size: 1.5em; margin-bottom: 20px; }
+.hero p { max-width: 700px; margin: 0 auto 30px auto; font-size: 1.1em; }
+.cta-btn { background: #fff; color: #000; padding: 15px 30px; border: none; border-radius: 8px; font-weight: bold; transition: 0.3s; }
+.cta-btn:hover { background: #ccc; }
+
+/* --- SIDE MENU --- */
+.menu-icon { position: fixed; top: 20px; right: 20px; font-size: 2em; z-index: 1100; cursor: pointer; color: #fff; }
+.side-menu { height: 100%; width: 250px; position: fixed; top: 0; right: -250px; background: #111; overflow-x: hidden; transition: 0.3s; padding-top: 60px; z-index: 1200; }
+.side-menu.active { right: 0; }
+.side-menu .close-btn { position: absolute; top: 20px; right: 20px; font-size: 2em; cursor: pointer; color: #fff; }
+.side-menu ul { list-style: none; padding: 0; }
+.side-menu ul li { padding: 15px 20px; }
+.side-menu ul li a { color: #fff; font-size: 1.2em; transition: 0.3s; }
+.side-menu ul li a:hover { color: #ccc; }
+
+/* --- OVERLAY --- */
+#overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; display: none; }
+
+/* --- ABOUT --- */
+.about { display: flex; flex-wrap: wrap; align-items: center; padding: 60px 0; gap: 40px; }
+.about-text { flex: 1 1 500px; }
+.about-text h2 { font-size: 2em; margin-bottom: 20px; color: #fff; }
+.about-text p { font-size: 1.1em; }
+.about-image { flex: 1 1 300px; text-align: center; }
+.about-image img { max-width: 100%; border-radius: 10px; border: 3px solid #fff; }
+
+/* --- SERVICES --- */
+.services { background: #111; padding: 60px 0; }
+.services h2 { text-align: center; font-size: 2em; margin-bottom: 50px; color: #fff; }
+.service-cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
+
+/* --- SERVICE CARD --- */
+.card {
+  position: relative;
+  background: #000;
+  border: 2px solid #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;           /* mobile-friendly width */
+  max-width: 600px;     /* hindi lalampas sa large screens */
+  text-align: center;
+  transition: background 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5); /* subtle shadow */
+  margin: 10px auto;    /* center sa container */
+}
+/* CHANGE 3: same height as What I Offer cards */
+.portfolio-item.full-width {
+  min-height: 150px;   /* same visual height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-5px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+}
+
+.card h3 { margin-bottom: 10px; }
+
+.card p.short-text {
+  margin-bottom: 10px;
+  transition: opacity 0.3s ease;
+}
+
+/* Arrow */
+.arrow {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: bold;
+  line-height: 1;
+  transition: transform 0.3s ease;
+  transform: rotate(90deg);
+  margin-top: 10px;
+}
+
+.card.active .arrow { transform: rotate(-90deg); }
+
+/* Definition (long text) */
+.definition {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s ease, padding 0.5s;
+  margin-top: 10px;
+  font-size: 0.95em;
+  line-height: 1.6em;
+  text-align: justify;
+  padding: 0;
+}
+
+.card.active .definition {
+  max-height: 500px;
+  padding: 10px;
+}
+
+/* Blur/opacity effect sa short text kapag active ang card */
+.card.active p.short-text {
+  opacity: 0.3;
+}
+
+/* --- STACK CARDS VERTICALLY ON MOBILE --- */
+@media(max-width:768px){
+  .service-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+
+
+
+
+
+/* --- PORTFOLIO --- */
+.portfolio { padding: 60px 0; }
+.portfolio h2 { text-align: center; font-size: 2em; margin-bottom: 50px; color: #fff; }
+.portfolio-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+.portfolio-item { background: #000; border: 2px solid #fff; border-radius: 10px; overflow: hidden; width: 250px; text-align: center; transition: 0.3s; }
+.portfolio-item img { width: 100%; display: block; }
+.portfolio-item h3 { padding: 15px 10px 5px 10px; }
+.portfolio-item p { padding: 0 10px 15px 10px; font-size: 0.95em; }
+.portfolio-item:hover { background: #fff; color: #000; }
+.portfolio-cta {
+  text-align: center;
+  margin-top: 80px;   /* mas malayo sa portfolio box */
+  margin-bottom: 30px;
+}
+
+
+/* --- FOOTER --- */
+footer { background: #000; padding: 40px 0; text-align: center; color: #fff; }
+footer h3 { margin-bottom: 10px; color: #fff; }
+footer p { margin-bottom: 10px; }
+footer a { margin: 0 10px; color: #fff; font-size: 1.2em; transition: 0.3s; }
+footer a:hover { color: #ccc; }
+footer button { background: #fff; color: #000; padding: 12px 25px; border: none; border-radius: 8px; font-weight: bold; margin-top: 15px; transition: 0.3s; }
+footer button:hover { background: #ccc; }
+
+/* --- SOCIAL ICONS --- */
+.social-icons { display: flex; justify-content: center; gap: 16px; margin-bottom: 16px; }
+
+/* --- RESPONSIVE --- */
+@media(max-width:768px){
+    .about { flex-direction: column; }
+    .service-cards, .portfolio-grid { flex-direction: column; align-items: center; }
+    .card, .portfolio-item { width: 80%; }
+}
+     .about-text p {
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+   .about {
+    display: flex;
+    flex-direction: column;  /* text sa taas, photo sa ilalim */
+    align-items: center;
+    padding: 60px 20px 100px;
+    gap: 40px;              /* space sa pagitan ng text at photo */
+}
+.about-image img {
+    width: 180px;         /* pwede mo palitan depende sa laki na gusto mo */
+    height: 180px;        /* same value para perfect circle */
+    border-radius: 50%;   /* ito ang nagpapabilog */
+    object-fit: cover;    /* para sakto at hindi distorted ang mukha mo */
+    border: 3px solid #fff;  /* optional: white border like FB */
+    display: block;
+    margin: 0 auto;       /* center the photo */
+}
+.side-menu ul li a {
+  cursor: pointer;
+}
+/* CHANGE 3: make the whole menu row clickable */
+.side-menu ul li a{
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+.portfolio-item.full-width {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+
+</style>
+</head>
+<body>
+
+<!-- Overlay -->
+<div id="overlay"></div>
+
+<!-- Side Menu -->
+<div class="menu-icon" id="menuToggle">&#9776;</div>
+<div class="side-menu" id="sideMenu">
+    <span class="close-btn" id="closeMenu">&times;</span>
+    <ul>
+        <li><a href="#home" data-scroll="home">Home</a></li>
+<li><a href="#about" data-scroll="about">About</a></li>
+<li><a href="#services" data-scroll="services">What I Offer</a></li>
+<li><a href="#portfolio" data-scroll="portfolio">Portfolio</a></li>
+
+    </ul>
+</div>
+
+<!-- HERO SECTION -->
+<section id="home" class="hero">
+    <h1>Helping Businesses Get More Leads</h1>
+<h2>Through Smart Marketing & Conversion-Focused Web Design</h2>
+    <p>I help businesses get more leads and improve their online presence using smart marketing strategies and clean, conversion-focused websites.</p>
+    <a href="https://calendly.com/benjiebastez/new-meeting"><button class="cta-btn">Book a Discovery Call</button>
+</a>
+</section>
+
+<!-- ABOUT SECTION -->
+<section id="about" class="about container">
+    <div class="about-text">
+        <h2>About Me</h2>
+        <p>Hi, I’m Benjie Bastez, a Marketing Specialist and Web Designer. Before entering the digital field, I spent 19 years in the construction industry—working as an electrician, machine operator, and eventually a foreman.</p>
+        <p>Those years taught me discipline, resilience, and the ability to build things with precision and purpose. I reached many milestones in that field, and I’m proud of everything I accomplished. But after nearly two decades, I felt it was time to pursue something new — something that would challenge me again and allow me to grow in a different direction.</p>
+        <p>Today, I’ve shifted into digital marketing and website creation because I believe I still have more to prove to myself. I want to use my skills, creativity, and work ethic to help business owners establish a strong online presence and present their brand in the best way possible.</p>
+        <p>I bring the same commitment and high standards from my construction background into every project I handle — building not with concrete and steel anymore, but with ideas, strategy, and design.</p>
+        <p>Let’s create something powerful for your business.</p>
+    </div>
+    <div class="about-image">
+        <img src="benjie.jpg" alt="Benjie Bastez">
+
+    </div>
+</section>
+
+<!-- SERVICES SECTION -->
+<section id="services" class="services">
+  <div class="container">
+    <h2>What I Offer</h2>
+    <div class="service-cards">
+      
+      <!-- Lead Generation -->
+      <div class="card">
+        <h3>Lead Generation</h3>
+        <p class="short-text">Turn visitors into clients through targeted strategies</p>
+        <span class="arrow">》</span>
+        <div class="definition">
+          <p>Lead Generation is the process of attracting and converting potential customers who are interested in your products or services.</p>
+          <p>It involves targeting the right audience, creating compelling offers, and using tools like landing pages, forms, and email campaigns to capture contact information.</p>
+          <p>Nurturing these leads with follow-ups and personalized messaging helps increase engagement and turn prospects into loyal clients.</p>
+          <p>By focusing on quality leads and smart strategies, businesses can grow consistently and improve their online conversions.</p>
+        </div>
+      </div>
+
+      <!-- Facebook Ads -->
+      <div class="card">
+        <h3>Facebook Ads</h3>
+        <p class="short-text">Reach the right audience and maximize ROI</p>
+        <span class="arrow">》</span>
+        <div class="definition">
+          <p>Facebook Ads allow businesses to reach highly targeted audiences through paid campaigns on Facebook and Instagram.</p>
+          <p>By defining demographics, interests, and behaviors, you can show your ads to the people most likely to engage with your brand.</p>
+          <p>Effective campaigns use eye-catching creatives, compelling copy, and clear calls-to-action to drive clicks, leads, or sales.</p>
+          <p>Continuous monitoring and optimization help maximize your return on investment, ensuring your ads reach the right audience and generate measurable results.</p>
+        </div>
+      </div>
+
+      <!-- Marketing Strategy -->
+      <div class="card">
+        <h3>Marketing Strategy</h3>
+        <p class="short-text">Smart plans to grow your business online</p>
+        <span class="arrow">》</span>
+        <div class="definition">
+          <p>Marketing Strategy involves creating a comprehensive plan to promote your business effectively.</p>
+          <p>It includes identifying target audiences, analyzing competitors, creating messaging that resonates, and choosing the right channels to reach prospects.</p>
+          <p>A strong marketing strategy ensures your efforts are focused, measurable, and aligned with your business goals, helping you grow online consistently.</p>
+        </div>
+      </div>
+
+      <!-- Web Design -->
+      <div class="card">
+        <h3>Web Design</h3>
+        <p class="short-text">Clean, conversion-focused landing pages & sites</p>
+        <span class="arrow">》</span>
+        <div class="definition">
+          <p>Web Design focuses on creating websites that are visually appealing, easy to navigate, and optimized for user experience.</p>
+          <p>It involves layout planning, color schemes, typography, and responsive design to ensure the site looks great on all devices.</p>
+          <p>A well-designed website not only attracts visitors but also guides them to take desired actions, like making a purchase or booking a call.</p>
+          <p>By combining aesthetics with functionality, Web Design helps businesses establish credibility, engage users, and increase online conversions.</p>
+        </div>
+      </div>
+
+      <!-- AI Automation -->
+      <div class="card">
+        <h3>AI Automation</h3>
+        <p class="short-text">Streamline processes & save time using AI</p>
+        <span class="arrow">》</span>
+        <div class="definition">
+          <p>AI Automation uses artificial intelligence tools and technologies to automate repetitive tasks and streamline business processes.</p>
+          <p>It can include automating email campaigns, data analysis, customer interactions, and workflow management.</p>
+          <p>By leveraging AI, businesses save time, reduce human error, and improve efficiency while focusing on higher-value tasks.</p>
+          <p>Implementing AI Automation allows companies to scale operations, optimize productivity, and enhance overall performance without adding extra manual work.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO SECTION -->
+<section id="portfolio" class="portfolio container">
+    <h2>My Work / Portfolio</h2>
+    
+    <p style="text-align:center; max-width:700px; margin:0 auto 30px;">
+Below are sample and concept projects created by Benjie Bastez to demonstrate layout, structure, and conversion-focused web design.
+</p>
+   <div class="portfolio-grid">
+
+  <a class="portfolio-item full-width" href="../miniweb/index.html">
+    <h3>View Full Portfolio</h3>
+    <p>Websites · Marketing Automation (Demo) · Integrations</p>
+  </a>
+
+</div>
+
+
+
+    <div class="portfolio-cta">
+        <a href="https://calendly.com/benjiebastez/new-meeting"><button class="cta-btn">Book a Discovery Call</button>
+</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <h3>Benjie Bastez</h3>
+    <p>Marketing Specialist & Web Designer</p>
+    <div class="social-icons">
+      <a href="https://www.facebook.com/share/19svAHwe4v/" class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M22.675 0h-21.35C.597 0 0 .597 0 1.325v21.351C0 23.403.597 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.796.143v3.24h-1.918c-1.504 0-1.795.715-1.795 1.763v2.314h3.587l-.467 3.622h-3.12V24h6.116C23.403 24 24 23.403 24 22.676V1.325C24 .597 23.403 0 22.675 0z"/></svg>
+      </a>
+      <a href="#" class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm5 5.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm6.5-.75a1.25 1.25 0 1 1-1.25-1.25 1.25 1.25 0 0 1 1.25 1.25z"/></svg>
+      </a>
+      <a href="https://www.linkedin.com/in/benjie-ai-automation-and-software-services-va-bastez-6716b3244" class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M4.98 3.5A2.5 2.5 0 1 1 2.48 6a2.5 2.5 0 0 1 2.5-2.5zM2.5 8h5v14h-5zm7.5 0h4.8v2h.07a5.25 5.25 0 0 1 4.68-2.44c5 0 5.92 3.3 5.92 7.58V22h-5v-6.28c0-1.5-.03-3.42-2.08-3.42-2.09 0-2.41 1.63-2.41 3.31V22h-5z"/></svg>
+      </a>
+      <a href="mailto:benjiebastez@gmail.com" class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 13.5 2 6.75V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6.75L12 13.5zM22 4H2l10 7 10-7z"/></svg>
+      </a>
+    </div>
+    <p style="margin-top:20px;">© 2025 Benjie Bastez. All Rights Reserved.</p>
+</footer>
+
+<script>
+// SIDE MENU SCRIPT
+const menuToggle = document.getElementById("menuToggle");
+const sideMenu = document.getElementById("sideMenu");
+const closeBtn = document.getElementById("closeMenu");
+const overlay = document.getElementById("overlay");
+const menuLinks = document.querySelectorAll("#sideMenu ul li a");
+
+menuToggle.addEventListener("click", () => { sideMenu.classList.add("active"); overlay.style.display = "block"; });
+closeBtn.addEventListener("click", () => { sideMenu.classList.remove("active"); overlay.style.display = "none"; });
+overlay.addEventListener("click", () => { sideMenu.classList.remove("active"); overlay.style.display = "none"; });
+
+menuLinks.forEach(link => {
+  link.addEventListener("click", function(e){
+    const targetId = this.getAttribute("data-scroll");
+
+    // Kung may data-scroll, smooth scroll
+    if (targetId) {
+      e.preventDefault();
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) targetEl.scrollIntoView({ behavior: "smooth" });
+    }
+    // Kung walang data-scroll (Portfolio external link), normal link behavior
+
+    sideMenu.classList.remove("active");
+    overlay.style.display = "none";
+  });
+});
+
+
+// SERVICE CARD SCRIPT
+const cards = document.querySelectorAll('.service-cards .card');
+
+cards.forEach(card => {
+  card.addEventListener('click', (e) => {
+    e.stopPropagation(); // para hindi ma-trigger ang document click
+    // Close all other cards
+    cards.forEach(c => {
+      if(c !== card) c.classList.remove('active');
+    });
+    // Toggle current card
+    card.classList.toggle('active');
+  });
+});
+
+// Close any open card if clicked outside
+document.addEventListener('click', (e) => {
+  cards.forEach(card => {
+    if(card.classList.contains('active')) {
+      card.classList.remove('active');
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
